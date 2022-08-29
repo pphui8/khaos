@@ -3,44 +3,56 @@ import { Breadcrumb, Layout, Menu, MenuProps } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import {
   LaptopOutlined,
-  NotificationOutlined,
+  AreaChartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 
 import "./index.css";
+import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
 
 const { Sider } = Layout;
+let navigator: NavigateFunction | ((arg0: string) => void);
+let GsetMyBreadcrumb: (arg0: string) => void;
 
 type Props = {};
 const sideNavItem: MenuProps["items"] = [
+  AreaChartOutlined,
   UserOutlined,
   LaptopOutlined,
-  NotificationOutlined,
 ].map((icon, index) => {
-  const key = ["User", "Laptop", "Notification"][index];
+  const key = ["MainPage", "Laptop", "Notification"][index];
 
   return {
     key: `${key}`,
     icon: React.createElement(icon),
     label: `${key}`,
+    onClick: () => {
+      GsetMyBreadcrumb(key);
+      navigator(`/home/${key.toLowerCase()}`);
+    }
   };
 });
 
 export default function index({}: Props) {
+  navigator = useNavigate();
+  const [myBreadcrumb, setMyBreadcrumb] = React.useState("MainPage");
+  GsetMyBreadcrumb = setMyBreadcrumb;
   return (
     <>
       <Sider width={200} className="site-layout-background">
         <Menu
           mode="inline"
-          defaultSelectedKeys={["0"]}
-          defaultOpenKeys={["sub1"]}
+          defaultSelectedKeys={["MainPage"]}
+          defaultOpenKeys={["MainPage"]}
           style={{ height: "100%", borderRight: 0 }}
           items={sideNavItem}
         />
       </Sider>
       <Layout className="mainPageLayout">
         <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          {myBreadcrumb.split(" ").map((item, index) => {
+            return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>;
+          })}
         </Breadcrumb>
         <Content
           className="site-layout-background"
@@ -50,7 +62,7 @@ export default function index({}: Props) {
             minHeight: 280,
           }}
         >
-          Content
+          <Outlet />
         </Content>
       </Layout>
     </>

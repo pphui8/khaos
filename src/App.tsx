@@ -1,49 +1,55 @@
-import type { MenuProps } from "antd";
-import { Layout, Menu } from "antd";
-import React from "react";
+import { Layout } from "antd";
 import "./App.css";
 import { Routes, Route, Navigate, useNavigate, NavigateFunction } from "react-router-dom";
 
+import MyHeader from "./components/MyHeader";
 import Home from "./pages/Home";
+import MainPage from "./pages/Home/MainPage";
 import Settings from './pages/Settings';
 
 let navigator: NavigateFunction | ((arg0: string) => void);
 
-const { Header } = Layout;
-
-const headNavItem: MenuProps["items"] = ["Home", "Settings", "My Profile"].map((key) => ({
-  key: key,
-  label: `${key}`,
-  onClick: () => {
-    navigator(`/${key.toLowerCase()}`);
-  }
-}));
+const isLogin = () => {
+  return true;
+}
 
 // 渲染主页面
-const App: React.FC = () => {
+export default function App() {
   navigator = useNavigate();
-  return (
-    <Layout className="rootLayout">
-      <Header className="header">
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={["home"]}
-          items={headNavItem}
-        />
-      </Header>
-      <Layout>
+  if(!isLogin()) {
+    return (
+      <div className="myContainer">
+          <div className="login-wrapper">
+             <div className="header">Login</div>
+              <div className="form-wrapper">
+                  <input type="text" name="username" placeholder="username" className="input-item" />
+                  <input type="password" name="password" placeholder="password" className="input-item" />
+                  <div className="btn">Login</div>
+              </div>
+              <div className="msg">
+                  Don't have account?
+                  <a href="#">Sign up</a>
+              </div>
+          </div>
+      </div>
+    )
+  } else {
+    return (
+      <Layout className="rootLayout">
+        <MyHeader />
+        <Layout>
           {/* 注册路由 */}
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<Home />}>
+              <Route path="/home/mainpage" element={<MainPage />} />
+              <Route path="/home/*" element={<MainPage />} />
+            </Route>
             <Route path="/settings" element={<Settings />} />
-            <Route path="*" element={<Navigate to="/home" />}></Route>
+            <Route path="*" element={<Navigate to="/home/mainpage" />}></Route>
           </Routes>
           {/* <MainPage /> */}
+        </Layout>
       </Layout>
-    </Layout>
-  );
+    );
+  }
 };
-
-export default App;

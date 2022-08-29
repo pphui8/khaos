@@ -1,3 +1,67 @@
 .rootLayout {
   min-height: 100vh !important;
 }
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+}
+.myContainer {
+  min-height: 100vh;
+  background-image: linear-gradient( 135deg, #5EFCE8 10%, #736EFE 100%);
+}
+.login-wrapper {
+    background-color: #fff;
+    width: 358px;
+    height: 588px;
+    padding: 0 50px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.header {
+  font-size: 38px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 200px;
+}
+.input-item {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  border: 0;
+  padding: 10px;
+  border-bottom: 1px solid rgb(128, 125, 125);
+  font-size: 15px;
+  outline: none;
+}
+.input-item:placeholder {
+  text-transform: uppercase;
+}
+.btn {
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  margin-top: 40px;
+  background-image: linear-gradient( 135deg, #5EFCE8 10%, #736EFE 100%);
+  color: #fff;
+  user-select: none;
+}
+.btn:active {
+  background-image: linear-gradient( 45deg, #5EFCE8 10%, #736EFE 100%);
+  color: #fff;
+}
+.msg {
+  text-align: center;
+  line-height: 88px;
+}
+a {
+  text-decoration-line: none;
+  color: #abc1ee;
+}
