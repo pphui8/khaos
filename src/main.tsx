@@ -4,10 +4,10 @@ import App from './App'
 import "antd/dist/antd.min.css";
 import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+        <App />
     </BrowserRouter>
   </React.StrictMode>
-)
+);

@@ -20,7 +20,7 @@ const sideNavItem: MenuProps["items"] = [
   UserOutlined,
   LaptopOutlined,
 ].map((icon, index) => {
-  const key = ["MainPage", "Laptop", "Notification"][index];
+  const key = ["MainPage", "Users", "Notification"][index];
 
   return {
     key: `${key}`,
