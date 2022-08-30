@@ -21,3 +21,19 @@
 #components-grid-demo-playground .ant-col {
   padding: 0;
 }
+.main-card-small {
+  width: 90%;
+  height: 200px;
+}
+.main-card-small-title {
+  font-size: 16px;
+  font-weight: 300;
+  color: #000;
+  margin-left: 10px;
+}
+.main-card-small-text {
+  font-size: 14px;
+  font-weight: 300;
+  color: #000;
+  margin-left: 10px;
+}

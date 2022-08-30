@@ -5,6 +5,7 @@ import {
   LaptopOutlined,
   AreaChartOutlined,
   UserOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 
 import "./index.css";
@@ -20,7 +21,7 @@ const sideNavItem: MenuProps["items"] = [
   UserOutlined,
   LaptopOutlined,
 ].map((icon, index) => {
-  const key = ["MainPage", "Users", "Notification"][index];
+  const key = ["MainPage", "Users", "Products"][index];
 
   return {
     key: `${key}`,
@@ -50,6 +51,9 @@ export default function index({}: Props) {
       </Sider>
       <Layout className="mainPageLayout">
         <Breadcrumb style={{ margin: "16px 0" }}>
+          <Breadcrumb.Item href="">
+            <HomeOutlined />
+          </Breadcrumb.Item>
           {myBreadcrumb.split(" ").map((item, index) => {
             return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>;
           })}

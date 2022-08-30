@@ -8,12 +8,16 @@ type Props = {}
 const { Header } = Layout;
 let navigator: NavigateFunction | ((arg0: string) => void);
 
-const headNavItem: MenuProps["items"] = ["Home", "Settings", "My Profile"].map(
+const headNavItem: MenuProps["items"] = ["Home", "Orders", "My Profile"].map(
   (key) => ({
     key: key,
     label: `${key}`,
     className: "head-nav-item",
     onClick: () => {
+      if(key === "Home") {
+        navigator("/home/mainpage");
+        return;
+      }
       navigator(`/${key.toLowerCase()}`);
     },
   })

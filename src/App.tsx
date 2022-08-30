@@ -12,8 +12,8 @@ import LoginPage from './pages/LoginPage';
 import Home from "./pages/Home";
 import MainPage from "./pages/Home/MainPage";
 import Users from "./pages/Home/Users";
-import Notification from "./pages/Home/Notification";
-import Settings from "./pages/Settings";
+import Products from "./pages/Home/Products";
+import Orders from "./pages/Orders";
 
 const login = () => {
   console.log("login");
@@ -39,21 +39,21 @@ export default function App() {
       <Layout className="rootLayout">
         <MyHeader />
         <Layout>
-            {/* 注册路由 */}
-            <Routes>
-              <Route path="/home" element={<Home />}>
-                <Route path="/home/mainpage" element={<MainPage />} />
-                <Route path="/home/users" element={<Users />} />
-                <Route path="/home/notification" element={<Notification />} />
-                <Route path="/home/*" element={<MainPage />} />
-              </Route>
-              <Route path="/settings" element={<Settings />} />
+          {/* 注册路由 */}
+          <Routes>
+            <Route path="/home" element={<Home />}>
+              <Route path="/home/mainpage" element={<MainPage />} />
+              <Route path="/home/users" element={<Users />} />
+              <Route path="/home/Products" element={<Products />} />
               <Route
-                path="*"
+                path="/home/*"
                 element={<Navigate to="/home/mainpage" />}
-              ></Route>
-            </Routes>
-            {/* <MainPage /> */}
+              />
+            </Route>
+            <Route path="/Orders" element={<Orders />} />
+            <Route path="*" element={<Navigate to="/home/mainpage" />}></Route>
+          </Routes>
+          {/* <MainPage /> */}
         </Layout>
       </Layout>
     );

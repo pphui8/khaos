@@ -1,8 +1,9 @@
-
-import { Avatar, Card, Col, Divider, Row } from 'antd';
-import { CheckSquareOutlined } from "@ant-design/icons";
+import React from "react";
+import { Card, Col, Divider, Row } from "antd";
+import { LineChartOutlined } from "@ant-design/icons";
 import ReactECharts from "echarts-for-react";
-import './index.css';
+import ServerStatus from "./ServerStatus";
+import "./index.css";
 
 type Props = {};
 
@@ -11,27 +12,17 @@ export default function index({}: Props) {
     <>
       <Row align="middle">
         <Col flex={1}>
-          <Card className='main-card-small' hoverable>
-            <h3>服务器状态</h3>
-            <Avatar
-              style={{ backgroundColor: "#87d068" }}
-              icon={<CheckSquareOutlined />}
-            />
-            <p>正常</p>
-          </Card>
+          <ServerStatus />
         </Col>
         <Col flex={1}>
-          <Card style={{ width: 300, height: 200, margin: 15 }} hoverable>
-            <h3>数据总览</h3>
-            <Avatar
-              style={{ backgroundColor: "#87d068" }}
-              icon={<CheckSquareOutlined />}
-            />
-            <p>正常</p>
+          <Card className="main-card-small" hoverable>
+            <LineChartOutlined />
+            <span className="main-card-small-title">数据总览</span>
+            <Divider />
           </Card>
         </Col>
       </Row>
-      <Divider orientation="left">用户数据</Divider>
+      <Divider orientation="left">活跃用户</Divider>
       <Row>
         <Col span={23}>
           <Card>
