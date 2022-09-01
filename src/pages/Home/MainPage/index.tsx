@@ -3,6 +3,7 @@ import { Card, Col, Divider, Row } from "antd";
 import { LineChartOutlined } from "@ant-design/icons";
 import ReactECharts from "echarts-for-react";
 import ServerStatus from "./ServerStatus";
+import SumData from "./SumData";
 import "./index.css";
 
 type Props = {};
@@ -15,11 +16,7 @@ export default function index({}: Props) {
           <ServerStatus />
         </Col>
         <Col flex={1}>
-          <Card className="main-card-small" hoverable>
-            <LineChartOutlined />
-            <span className="main-card-small-title">数据总览</span>
-            <Divider />
-          </Card>
+          <SumData />
         </Col>
       </Row>
       <Divider orientation="left">活跃用户</Divider>

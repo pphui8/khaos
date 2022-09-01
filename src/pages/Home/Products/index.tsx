@@ -1,77 +1,118 @@
-import { LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
-import { Avatar, List, Space } from "antd";
-import React from "react";
+import { Modal, Space, Table, Tag } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import React, { useEffect, useState } from "react";
+import config from "../../../config";
 
-const data = Array.from({ length: 23 }).map((_, i) => ({
-  href: "https://ant.design",
-  title: `ant design part ${i}`,
-  avatar: "https://joeschmoe.io/api/v1/random",
-  description:
-    "Ant Design, a design language for background applications, is refined by Ant UED Team.",
-  content:
-    "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-}));
+interface DataType {
+  key: number;
+  id: number;
+  productname: string;
+  price: number;
+  stock: string;
+  sale: string;
+  type: string;
+  status: string;
+}
 
-const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
+const App: React.FC = () => {
+  const [products, setProducts] = React.useState<DataType[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-const App: React.FC = () => (
-  <List
-    itemLayout="vertical"
-    size="large"
-    pagination={{
-      onChange: (page) => {
-        console.log(page);
-      },
-      pageSize: 3,
-    }}
-    dataSource={data}
-    footer={
-      <div>
-        <b>ant design</b> footer part
-      </div>
-    }
-    renderItem={(item) => (
-      <List.Item
-        key={item.title}
-        actions={[
-          <IconText
-            icon={StarOutlined}
-            text="156"
-            key="list-vertical-star-o"
-          />,
-          <IconText
-            icon={LikeOutlined}
-            text="156"
-            key="list-vertical-like-o"
-          />,
-          <IconText
-            icon={MessageOutlined}
-            text="2"
-            key="list-vertical-message"
-          />,
-        ]}
-        extra={
-          <img
-            width={272}
-            alt="logo"
-            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-          />
-        }
-      >
-        <List.Item.Meta
-          avatar={<Avatar src={item.avatar} />}
-          title={<a href={item.href}>{item.title}</a>}
-          description={item.description}
-        />
-        {item.content}
-      </List.Item>
-    )}
-  />
-);
+  const showModal = (id: string) => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  
+const columns: ColumnsType<DataType> = [
+  {
+    title: "商品编号",
+    dataIndex: "id",
+    key: "id",
+    render: (text) => <a>{text}</a>,
+  },
+  {
+    title: "商品名",
+    dataIndex: "productname",
+    key: "productname",
+  },
+  {
+    title: "价格",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "在库",
+    dataIndex: "stock",
+    key: "stock",
+  },
+  {
+    title: "销量",
+    key: "sale",
+    dataIndex: "sale",
+  },
+  {
+    title: "商品种类",
+    key: "type",
+    dataIndex: "type",
+  },
+  {
+    title: "状态",
+    key: "status",
+    render: (_, record) => (
+      <Space size="middle">
+        <Tag color={record.status === "在售" ? "blue" : "red"}>
+          {record.status}
+        </Tag>
+      </Space>
+    ),
+  },
+  {
+    title: "操作",
+    key: "action",
+    render: (_, record) => (
+      <Space size="middle">
+        <a onClick={(event) => showModal(String(record.id))}>查看详情</a>
+        <a>删除</a>
+      </Space>
+    ),
+  },
+];
+
+  const getData = () => {
+    fetch(config.baseURL + "productlist")
+      .then((res) => res.json())
+      .then((data) => {
+        data.map((item: any) => {
+          item.key = item.id;
+        });
+        setProducts(data);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <>
+      <Table columns={columns} dataSource={products} />
+      <Modal
+        title="商品详情"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      ></Modal>
+    </>
+  );
+};
 
 export default App;
