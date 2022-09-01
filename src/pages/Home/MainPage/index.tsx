@@ -19,7 +19,7 @@ export default function index({}: Props) {
           <SumData />
         </Col>
       </Row>
-      <Divider orientation="left">活跃用户</Divider>
+      <Divider orientation="left">下单数量</Divider>
       <Row>
         <Col span={23}>
           <Card>
