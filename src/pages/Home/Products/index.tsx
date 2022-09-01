@@ -8,6 +8,7 @@ interface DataType {
   id: number;
   productname: string;
   price: number;
+  descript: string;
   stock: string;
   sale: string;
   type: string;
@@ -16,9 +17,25 @@ interface DataType {
 
 const App: React.FC = () => {
   const [products, setProducts] = React.useState<DataType[]>([]);
+  const [product, setProduct] = React.useState<DataType>({
+    key: 0,
+    id: 0,
+    productname: "",
+    price: 0,
+    descript: "",
+    stock: "",
+    sale: "",
+    type: "",
+    status: "",
+  });
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = (id: string) => {
+  const showModal = (id: number) => {
+    products.map((product) => {
+      if (product.id === id) {
+        setProduct(product);
+      }
+    }),
     setIsModalVisible(true);
   };
 
@@ -79,7 +96,7 @@ const columns: ColumnsType<DataType> = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <a onClick={(event) => showModal(String(record.id))}>查看详情</a>
+        <a onClick={(event) => showModal(record.id)}>查看详情</a>
         <a>删除</a>
       </Space>
     ),
@@ -110,7 +127,16 @@ const columns: ColumnsType<DataType> = [
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-      ></Modal>
+      >
+        <p>商品编号：{product.id}</p>
+        <p>商品名：{product.productname}</p>
+        <p>价格：{product.price}</p>
+        <p>在库：{product.stock}</p>
+        <p>销量：{product.sale}</p>
+        <p>商品种类：{product.type}</p>
+        <p>状态：{product.status}</p>
+        <p>描述：{product.descript}</p>
+      </Modal>
     </>
   );
 };
