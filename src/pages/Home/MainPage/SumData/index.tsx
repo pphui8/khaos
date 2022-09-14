@@ -6,15 +6,22 @@ import "./index.css";
 
 type Props = {}
 
+type Summary = {
+  Usernumber: number,
+  Ordernumber: number,
+}
+
 export default function index({}: Props) {
-  const [userNumber, setUserNumber] = React.useState(0);
-  const [orderNumber, setOrderNumber] = React.useState(0);
+  const [summary, setSummary] = React.useState<Summary>({
+    Usernumber: 0,
+    Ordernumber: 0,
+  });
   
   const getData = () => {
-    fetch(config.baseURL + "usernumber")
+    fetch(config.baseURL + "summary")
         .then((res) => res.json())
         .then((data) => {
-            setUserNumber(data.usernumber);
+          setSummary(data);
         });
   }
 
@@ -28,10 +35,10 @@ export default function index({}: Props) {
       <span className="main-card-small-title">数据总览</span>
       <Divider />
       <span className="main-card-small-hint">用户总数</span>
-      <span className="main-card-small-data">{userNumber}</span>
+      <span className="main-card-small-data">{summary.Usernumber}</span>
       <br />
       <span className="main-card-small-hint">订单总数</span>
-      <span className="main-card-small-data">{orderNumber}</span>
+      <span className="main-card-small-data">{summary.Ordernumber}</span>
     </Card>
   );
 }

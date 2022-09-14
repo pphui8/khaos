@@ -1,6 +1,7 @@
-import { Modal, Space, Table, Tag } from "antd";
+import { Modal, Space, Table, Tag, Image, Popconfirm } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import config from "../../../config";
 
 interface DataType {
@@ -11,6 +12,7 @@ interface DataType {
   descript: string;
   stock: string;
   sale: string;
+  img: string;
   type: string;
   status: string;
 }
@@ -25,6 +27,7 @@ const App: React.FC = () => {
     descript: "",
     stock: "",
     sale: "",
+    img: "",
     type: "",
     status: "",
   });
@@ -46,6 +49,23 @@ const App: React.FC = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const delproduct = (id: number) => {
+    let result = fetch(config.baseURL + "delproduct/" + id);
+    return result;
+  }
+
+  const confirm = (id: number) => {
+    toast.promise(delproduct(id), {
+      loading: "删除中...",
+      success: "删除成功",
+      error: "删除失败",
+    })
+      .then(() => {
+        window.location.reload();
+      })
+    ;
+  }
 
   
 const columns: ColumnsType<DataType> = [
@@ -97,7 +117,15 @@ const columns: ColumnsType<DataType> = [
     render: (_, record) => (
       <Space size="middle">
         <a onClick={(event) => showModal(record.id)}>查看详情</a>
-        <a>删除</a>
+        <Popconfirm
+          title="删除商品会导致订单中的相关订单被删除，确定删除吗？"
+          placement="topRight"
+          onConfirm={() => confirm(record.id)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <a href="#">删除</a>
+        </Popconfirm>
       </Space>
     ),
   },
@@ -128,6 +156,11 @@ const columns: ColumnsType<DataType> = [
         onCancel={handleCancel}
         footer={null}
       >
+        <Image
+          width={200}
+          src={product.img}
+          placeholder={<Image preview={false} src={product.img} width={200} />}
+        ></Image>
         <p>商品编号：{product.id}</p>
         <p>商品名：{product.productname}</p>
         <p>价格：{product.price}</p>

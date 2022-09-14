@@ -1,4 +1,4 @@
-import { Modal, Space, Table, Tag } from "antd";
+import { message, Modal, Popconfirm, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -9,7 +9,7 @@ interface DataType {
   Username: string;
   Registerdate: string;
   Phone: string;
-  Privilege: string[];
+  Privilege: string;
 }
 
 interface UserDetail {
@@ -51,13 +51,24 @@ const App: React.FC = () => {
   };
 
   const delUser = (id: string) => {
-    fetch(`${config.baseURL}`)
-      .then((res) => {
-        toast.success("删除成功");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    users.filter((value) => {
+      if(value.Id === id) {
+        if(value.Privilege === 'manager') {
+          toast.error("不能删除管理员");
+          return false;
+        } else {
+          fetch(`${config.baseURL}` + "deluser/" + id)
+            .then((res) => {
+              toast.success("删除成功");
+              window.location.reload();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          return false;
+        }
+      }
+    })
   };
 
   const getUserDetail = (id: string) => {
@@ -103,8 +114,8 @@ const App: React.FC = () => {
       key: "Phone",
       render: (_, record) => (
         <Space size="middle">
-          <Tag color={record.Privilege[0] === "manager" ? "blue" : "red"}>
-            {record.Privilege[0] === "manager" ? "普通用户" : "管理员"}
+          <Tag color={record.Privilege === "manager" ? "red" : "blue"}>
+            {record.Privilege === "manager" ? "管理员" : "普通用户"}
           </Tag>
         </Space>
       ),
@@ -115,7 +126,15 @@ const App: React.FC = () => {
       render: (_, record) => (
         <Space size="middle">
           <a onClick={(event) => showModal(record.Id)}>查看详情</a>
-          <a onClick={(event) => delUser(record.Id)}>删除</a>
+          <Popconfirm
+            title="删除用户会导致订单中的相关订单被删除，确定删除吗？"
+            placement="topRight"
+            onConfirm={() => delUser(record.Id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <a href="#">删除</a>
+          </Popconfirm>
         </Space>
       ),
     },

@@ -6,6 +6,7 @@ import {
   AreaChartOutlined,
   UserOutlined,
   HomeOutlined,
+  ControlOutlined,
 } from "@ant-design/icons";
 
 import "./index.css";
@@ -20,8 +21,9 @@ const sideNavItem: MenuProps["items"] = [
   AreaChartOutlined,
   UserOutlined,
   LaptopOutlined,
+  ControlOutlined,
 ].map((icon, index) => {
-  const key = ["MainPage", "Users", "Products"][index];
+  const key = ["MainPage", "Users", "Products", "Manage"][index];
 
   return {
     key: `${key}`,
@@ -30,7 +32,7 @@ const sideNavItem: MenuProps["items"] = [
     onClick: () => {
       GsetMyBreadcrumb(key);
       navigator(`/home/${key.toLowerCase()}`);
-    }
+    },
   };
 });
 

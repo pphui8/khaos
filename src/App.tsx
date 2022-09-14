@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import MainPage from "./pages/Home/MainPage";
 import Users from "./pages/Home/Users";
 import Products from "./pages/Home/Products";
+import Manage from "./pages/Home/Manage";
 import Orders from "./pages/Orders";
 
 const login = () => {
@@ -21,7 +22,7 @@ const login = () => {
 
 const isLogin = () => {
   const token = localStorage.getItem("token");
-  if(!token) {
+  if(token) {
     return true;
   } else {
     return false;
@@ -45,6 +46,7 @@ export default function App() {
               <Route path="/home/mainpage" element={<MainPage />} />
               <Route path="/home/users" element={<Users />} />
               <Route path="/home/Products" element={<Products />} />
+              <Route path="/home/manage" element={<Manage />} />
               <Route
                 path="/home/*"
                 element={<Navigate to="/home/mainpage" />}

@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, Col, Divider, Row } from "antd";
-import { LineChartOutlined } from "@ant-design/icons";
-import ReactECharts from "echarts-for-react";
+// import ReactECharts from "echarts-for-react";
 import ServerStatus from "./ServerStatus";
 import SumData from "./SumData";
 import "./index.css";
@@ -23,7 +22,7 @@ export default function index({}: Props) {
       <Row>
         <Col span={23}>
           <Card>
-            <ReactECharts
+            {/* <ReactECharts
               option={{
                 xAxis: {
                   type: "category",
@@ -39,7 +38,7 @@ export default function index({}: Props) {
                   },
                 ],
               }}
-            />
+            /> */}
           </Card>
         </Col>
       </Row>

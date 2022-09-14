@@ -53,6 +53,20 @@ const App: React.FC = () => {
     setIsModalVisible(false);
   };
 
+  const statusTagColor = (status: string) => {
+    if (status === "未付款") {
+      return "yellow";
+    } else if (status === "已发货") {
+      return "green";
+    } else if (status === "已收货") {
+      return "blue";
+    } else if (status === "已取消") {
+      return "red";
+    } else {
+      return "";
+    }
+  }
+
   const columns: ColumnsType<DataType> = [
     {
       title: "订单编号",
@@ -94,7 +108,13 @@ const App: React.FC = () => {
       title: "状态",
       key: "status",
       dataIndex: "status",
-      render: (_, status) => <></>,
+      render: (_, record) => (
+        <Space size="middle">
+          <Tag color={statusTagColor(record.status)}>
+            {record.status}
+          </Tag>
+        </Space>
+      ),
     },
     {
       title: "操作",
