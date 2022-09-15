@@ -1,6 +1,7 @@
-import { Modal, Space, Table, Tag } from "antd";
+import { Modal, Popconfirm, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import config from "../../../config";
 
 interface DataType {
@@ -52,6 +53,17 @@ const App: React.FC = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const confirm = (id: number) => {
+    fetch(config.baseURL + `delorder/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        toast.success("订单已删除");
+      })
+      .catch((err) => {
+        toast.error("删除失败");
+      });
+  }
 
   const statusTagColor = (status: string) => {
     if (status === "未付款") {
@@ -110,9 +122,7 @@ const App: React.FC = () => {
       dataIndex: "status",
       render: (_, record) => (
         <Space size="middle">
-          <Tag color={statusTagColor(record.status)}>
-            {record.status}
-          </Tag>
+          <Tag color={statusTagColor(record.status)}>{record.status}</Tag>
         </Space>
       ),
     },
@@ -122,7 +132,15 @@ const App: React.FC = () => {
       render: (_, record) => (
         <Space size="middle">
           <a onClick={(event) => showModal(record.id)}>查看详情页</a>
-          <a>删除</a>
+          <Popconfirm
+            title="确定要删除吗？"
+            placement="topRight"
+            onConfirm={() => confirm(record.id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <a>删除</a>
+          </Popconfirm>
         </Space>
       ),
     },

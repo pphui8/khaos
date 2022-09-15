@@ -16,6 +16,10 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  "baseUrl":".",
+  "paths": {
+      "tslib" : ["node_modules/tslib/tslib.d.ts"]
+  },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

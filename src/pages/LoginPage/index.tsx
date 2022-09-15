@@ -6,7 +6,17 @@ import config from '../../config';
 type Props = {}
 
 interface UserType {
-  publickey: string,
+  Publickey: string,
+}
+
+interface UserData {
+  Descript: string;
+  Id: number;
+  Phone: string;
+  Privilege: string;
+  Registerdate: string;
+  Username: string;
+  error: string;
 }
 
 export default function index({}: Props) {
@@ -19,22 +29,31 @@ export default function index({}: Props) {
     ) as HTMLInputElement | null;
     if(username?.value === '') {
       toast.error("请输入用户名")
+      return
     } else if (password?.value === '') {
       toast.error("请输入密码");
+      return
     }
-    const result = md5(`${username?.value.trim()}${password?.value.trim()}`);
-    
-    console.log(`${username?.value.trim()}${password?.value.trim()}`);
-    // let value: UserType = {
-    //   publickey: 
-    // }
-    // fetch(config.baseURL + "/login", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: ""
-    // });
+    let value: UserType = {
+      Publickey: md5(`${username?.value.trim()}${password?.value.trim()}`),
+    }
+    fetch(config.baseURL + "login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(value),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        let data: UserData = res;
+        if(data.error) {
+          toast.error("用户不存在或用户无管理员权限");
+        } else {
+          localStorage.setItem("user", JSON.stringify(data));
+          window.location.href = "/home/mainpage";
+        }
+      })
   }
   return (
     <div className="myContainer">

@@ -1,4 +1,4 @@
-import { Layout, Menu, MenuProps } from "antd";
+import { Button, Layout, Menu, MenuProps } from "antd";
 import React from 'react'
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import './index.css';
@@ -25,6 +25,12 @@ const headNavItem: MenuProps["items"] = ["Home", "Orders"].map(
 
 export default function index({}: Props) {
   navigator = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("user")
+    window.location.href = "/home";
+  }
+  
   return (
     <Header className="header header-nav">
       <Menu
@@ -33,6 +39,9 @@ export default function index({}: Props) {
         defaultSelectedKeys={["home"]}
         items={headNavItem}
       />
+      <Button className="logOutButton" onClick={logout}>
+        注销
+      </Button>
     </Header>
   );
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, Col, Divider, Row } from "antd";
-// import ReactECharts from "echarts-for-react";
 import ServerStatus from "./ServerStatus";
 import SumData from "./SumData";
 import "./index.css";
@@ -22,23 +21,6 @@ export default function index({}: Props) {
       <Row>
         <Col span={23}>
           <Card>
-            {/* <ReactECharts
-              option={{
-                xAxis: {
-                  type: "category",
-                  data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                },
-                yAxis: {
-                  type: "value",
-                },
-                series: [
-                  {
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: "line",
-                  },
-                ],
-              }}
-            /> */}
           </Card>
         </Col>
       </Row>

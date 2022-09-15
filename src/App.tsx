@@ -16,12 +16,8 @@ import Products from "./pages/Home/Products";
 import Manage from "./pages/Home/Manage";
 import Orders from "./pages/Orders";
 
-const login = () => {
-  console.log("login");
-}
-
 const isLogin = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("user");
   if(token) {
     return true;
   } else {

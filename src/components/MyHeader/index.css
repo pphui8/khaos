@@ -5,3 +5,7 @@
     background: rgba(255, 255, 255, 0) !important;
     /*opacity: 0.0 !important; */
 }
+.logOutButton {
+    top: -74px !important;
+    right: -45% !important;
+}
