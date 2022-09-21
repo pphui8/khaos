@@ -42,6 +42,7 @@ export default function index({}: Props) {
   GsetMyBreadcrumb = setMyBreadcrumb;
   return (
     <>
+      {/* 侧边栏 */}
       <Sider width={200} className="site-layout-background">
         <Menu
           mode="inline"
@@ -51,9 +52,10 @@ export default function index({}: Props) {
           items={sideNavItem}
         />
       </Sider>
+      {/* 内容 */}
       <Layout className="mainPageLayout">
         <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item href="">
+          <Breadcrumb.Item href="/home/mainpage">
             <HomeOutlined />
           </Breadcrumb.Item>
           {myBreadcrumb.split(" ").map((item, index) => {
@@ -68,6 +70,7 @@ export default function index({}: Props) {
             minHeight: 280,
           }}
         >
+          {/* 正文内容 */}
           <Outlet />
         </Content>
       </Layout>

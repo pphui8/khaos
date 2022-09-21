@@ -15,6 +15,8 @@ import Users from "./pages/Home/Users";
 import Products from "./pages/Home/Products";
 import Manage from "./pages/Home/Manage";
 import Orders from "./pages/Orders";
+import Announcement from "./pages/Announcement";
+import Post from "./pages/Post";
 
 const isLogin = () => {
   const token = localStorage.getItem("user");
@@ -49,9 +51,11 @@ export default function App() {
               />
             </Route>
             <Route path="/Orders" element={<Orders />} />
+            <Route path="/Announcement" element={<Announcement />} />
+            <Route path="/Post" element={<Post />} />
+            {/* <MainPage /> */}
             <Route path="*" element={<Navigate to="/home/mainpage" />}></Route>
           </Routes>
-          {/* <MainPage /> */}
         </Layout>
       </Layout>
     );

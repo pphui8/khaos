@@ -10,7 +10,7 @@ export default function index({}: Props) {
   return (
     <>
       <Breadcrumb className="setting-breadcrumb">
-        <Breadcrumb.Item href="">
+        <Breadcrumb.Item href="/home/mainpage">
           <HomeOutlined />
         </Breadcrumb.Item>
         <Breadcrumb.Item>Products</Breadcrumb.Item>

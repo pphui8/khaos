@@ -8,7 +8,7 @@ type Props = {}
 const { Header } = Layout;
 let navigator: NavigateFunction | ((arg0: string) => void);
 
-const headNavItem: MenuProps["items"] = ["Home", "Orders"].map(
+const headNavItem: MenuProps["items"] = ["Home", "Orders", "Announcement", "Post"].map(
   (key) => ({
     key: key,
     label: `${key}`,
