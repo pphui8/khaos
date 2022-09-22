@@ -16,6 +16,7 @@ import AnnouncementList from "./AnnouncementList";
 import toast from "react-hot-toast";
 import { RcFile } from "antd/lib/upload";
 import config from "../../config";
+import TextArea from "antd/lib/input/TextArea";
 
 type Props = {};
 
@@ -127,7 +128,7 @@ export default function index({}: Props) {
             name="content"
             rules={[{ required: true, message: "请输入公告内容" }]}
           >
-            <Input type="text" />
+            <TextArea rows={4} />
           </Form.Item>
 
           <Form.Item
