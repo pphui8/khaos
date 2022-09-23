@@ -93,6 +93,8 @@ const App: React.FC = () => {
       dataIndex: "Id",
       key: "Id",
       render: (text) => <a>{text}</a>,
+      defaultSortOrder: "descend",
+      sorter: (a, b) => Number(a.Id) - Number(b.Id),
     },
     {
       title: "用户名",
@@ -119,6 +121,20 @@ const App: React.FC = () => {
           </Tag>
         </Space>
       ),
+      filters: [
+        {
+          value: "manager",
+          text: "管理员",
+        },
+        {
+          value: "user",
+          text: "普通用户",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value: string | number | boolean, record: DataType) =>
+        record.Privilege.includes(value.toString()),
     },
     {
       title: "操作",

@@ -1,5 +1,6 @@
 import { Modal, Popconfirm, Space, Table, Tag } from "antd";
-import type { ColumnsType } from "antd/es/table";
+import type { ColumnsType, TableProps } from "antd/es/table";
+import { ColumnFilterItem } from "antd/lib/table/interface";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import config from "../../../config";
@@ -18,8 +19,6 @@ interface DataType {
   status: string;
 }
 
-
-
 const App: React.FC = () => {
   const [orders, setOrders] = React.useState<DataType[]>([]);
   const [order, setOrder] = React.useState<DataType>({
@@ -36,6 +35,8 @@ const App: React.FC = () => {
     status: "",
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [usernames, setUsernames] = useState<ColumnFilterItem[]>([]);
+  const [productnames, setProductnames] = useState<ColumnFilterItem[]>([]);
 
   const showModal = (id: number) => {
     orders.map((order) => {
@@ -67,13 +68,15 @@ const App: React.FC = () => {
 
   const statusTagColor = (status: string) => {
     if (status === "未付款") {
+      return "red";
+    } else if (status === "未发货") {
       return "yellow";
     } else if (status === "已发货") {
       return "green";
     } else if (status === "已收货") {
       return "blue";
     } else if (status === "已取消") {
-      return "red";
+      return "gray";
     } else {
       return "";
     }
@@ -83,18 +86,30 @@ const App: React.FC = () => {
     {
       title: "订单编号",
       dataIndex: "key",
-      key: "userid",
+      key: "id",
       render: (text) => <a>{text}</a>,
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.id - b.id,
     },
     {
       title: "用户名",
       dataIndex: "username",
       key: "username",
+      filters: usernames,
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value: string | number | boolean, record: DataType) =>
+        record.username.includes(value.toString()),
     },
     {
       title: "商品名",
       dataIndex: "productname",
       key: "productname",
+      filters: productnames,
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value: string | number | boolean, record: DataType) =>
+        record.productname.includes(value.toString()),
     },
     {
       title: "价格",
@@ -125,6 +140,32 @@ const App: React.FC = () => {
           <Tag color={statusTagColor(record.status)}>{record.status}</Tag>
         </Space>
       ),
+      filters: [
+        {
+          value: "未付款",
+          text: "未付款",
+        },
+        {
+          value: "未发货",
+          text: "未发货",
+        },
+        {
+          value: "已发货",
+          text: "已发货",
+        },
+        {
+          value: "已收货",
+          text: "已收货",
+        },
+        {
+          value: "已取消",
+          text: "已取消",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value: string | number | boolean, record: DataType) =>
+        record.status.includes(value.toString()),
     },
     {
       title: "操作",
@@ -150,11 +191,40 @@ const App: React.FC = () => {
     fetch(config.baseURL + "orderlist")
       .then((res) => res.json())
       .then((data) => {
-        data.map((item: any) => {
+        let isFind = false;
+        let usernames: ColumnFilterItem[] = [];
+        data.map((item: DataType) => {
           item.key = item.id;
-        });
+          usernames.map((value, _) => {
+            if(value.text === item.username) {
+              isFind = true;
+              return;
+            }
+          })
+          if (!isFind) {
+            usernames.push({
+              text: item.username,
+              value: item.username,
+            });
+          }
         setOrders(data);
+        setUsernames(usernames);
+        isFind = false;
       });
+    });
+    fetch(config.baseURL + "productlist")
+      .then((res) => res.json())
+      .then((data) => {
+        let productnames: ColumnFilterItem[] = [];
+        data.map((item: DataType) => {
+          productnames.push({
+            text: item.productname,
+            value: item.productname,
+          });
+        });
+        setProductnames(productnames);
+      }
+    );
   };
 
   useEffect(() => {

@@ -74,6 +74,8 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "id",
     key: "id",
     render: (text) => <a>{text}</a>,
+    defaultSortOrder: "descend",
+    sorter: (a, b) => a.id - b.id,
   },
   {
     title: "商品名",
@@ -84,21 +86,41 @@ const columns: ColumnsType<DataType> = [
     title: "价格",
     dataIndex: "price",
     key: "price",
+    defaultSortOrder: "descend",
+    sorter: (a, b) => a.price - b.price,
   },
   {
     title: "在库",
     dataIndex: "stock",
     key: "stock",
+    defaultSortOrder: "descend",
+    sorter: (a, b) => Number(a.stock) - Number(b.stock),
   },
   {
     title: "销量",
     key: "sale",
     dataIndex: "sale",
+    defaultSortOrder: "descend",
+    sorter: (a, b) => Number(a.sale) - Number(b.sale),
   },
   {
     title: "商品种类",
     key: "type",
     dataIndex: "type",
+    filters: [
+      {
+        value: "硬件设备",
+        text: "硬件设备",
+      },
+      {
+        value: "游戏账号",
+        text: "游戏账号",
+      },
+    ],
+    filterMode: "tree",
+    filterSearch: true,
+    onFilter: (value: string | number | boolean, record: DataType) =>
+      record.type.includes(value.toString()),
   },
   {
     title: "状态",
@@ -110,6 +132,20 @@ const columns: ColumnsType<DataType> = [
         </Tag>
       </Space>
     ),
+    filters: [
+      {
+        value: "在售",
+        text: "在售",
+      },
+      {
+        value: "停售",
+        text: "停售",
+      },
+    ],
+    filterMode: "tree",
+    filterSearch: true,
+    onFilter: (value: string | number | boolean, record: DataType) =>
+      record.status.includes(value.toString()),
   },
   {
     title: "操作",

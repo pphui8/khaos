@@ -1,10 +1,12 @@
 import { Modal, Popconfirm, Space, Table, Image } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { ColumnFilterItem } from "antd/lib/table/interface";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import config from "../../../config";
 
 interface DataType {
+  key: number;
   id: number;
   userid: number;
   username: string;
@@ -29,11 +31,11 @@ interface CommentDataType {
   against: number;
 }
 
-
 const App: React.FC = () => {
   const [posts, setposts] = React.useState<DataType[]>([]);
   const [post, setpost] = React.useState<DataType>({
     id: 1,
+    key: 1,
     userid: 1,
     username: "",
     title: "",
@@ -46,17 +48,8 @@ const App: React.FC = () => {
     tag: "",
   });
   const [comments, setcomments] = React.useState<CommentDataType[]>([]);
-  const [comment, setcomment] = React.useState<CommentDataType>({
-    id: 1,
-    userid: 1,
-    username: "",
-    postid: 1,
-    content: "",
-    date: "",
-    support: 0,
-    against: 0,
-  });
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [usernames, setUsernames] = useState<ColumnFilterItem[]>([]);
 
   const showModal = (id: number) => {
     posts.map((post) => {
@@ -89,11 +82,10 @@ const App: React.FC = () => {
   };
 
   const confirmDelComment = (id: number) => {
-    fetch(config.baseURL + `delpost/${id}`)
+    fetch(config.baseURL + `delcomment/${id}`)
       .then((res) => res.json())
       .then((res) => {
         toast.success("评论已删除");
-        window.location.reload();
       })
       .catch((err) => {
         toast.error("删除失败");
@@ -106,11 +98,18 @@ const App: React.FC = () => {
       dataIndex: "key",
       key: "id",
       render: (text) => <a>{text}</a>,
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.id - b.id,
     },
     {
       title: "发帖用户",
       dataIndex: "username",
       key: "username",
+      filters: usernames,
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value: string | number | boolean, record: DataType) =>
+        record.username.includes(value.toString()),
     },
     {
       title: "标题",
@@ -153,6 +152,8 @@ const App: React.FC = () => {
       dataIndex: "key",
       key: "id",
       render: (text) => <a>{text}</a>,
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.id - b.id,
     },
     {
       title: "评论用户",
@@ -202,11 +203,26 @@ const App: React.FC = () => {
     fetch(config.baseURL + "postlist")
       .then((res) => res.json())
       .then((data) => {
-        data.map((item: any) => {
+        let isFind = false;
+        let usernames: ColumnFilterItem[] = [];
+        data.map((item: DataType) => {
           item.key = item.id;
+          usernames.map((value, _) => {
+            if (value.text === item.username) {
+              isFind = true;
+              return;
+            }
+          });
+          if (!isFind) {
+            usernames.push({
+              text: item.username,
+              value: item.username,
+            });
+          }
+          setposts(data);
+          setUsernames(usernames);
         });
-        setposts(data);
-      });
+    });
   };
 
   const getCommentData = (id: number) => {
