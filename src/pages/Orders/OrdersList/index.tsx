@@ -1,6 +1,7 @@
 import { Modal, Popconfirm, Space, Table, Tag } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { ColumnFilterItem } from "antd/lib/table/interface";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import config from "../../../config";
@@ -115,6 +116,8 @@ const App: React.FC = () => {
       title: "价格",
       key: "price",
       dataIndex: "price",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.price - b.price,
     },
     {
       title: "数量",
@@ -125,6 +128,12 @@ const App: React.FC = () => {
       title: "下单日期",
       key: "date",
       dataIndex: "date",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => {
+        const aDate = new Date(a.date);
+        const bDate = new Date(b.date);
+        return aDate.getTime() - bDate.getTime();
+      }
     },
     {
       title: "收货地址",
