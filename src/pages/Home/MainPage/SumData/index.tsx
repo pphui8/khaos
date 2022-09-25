@@ -1,44 +1,29 @@
 import { Card, Divider } from 'antd';
 import { LineChartOutlined } from "@ant-design/icons";
-import React, { useEffect } from 'react'
-import config from '../../../../config';
+import React from 'react'
 import "./index.css";
 
-type Props = {}
-
 type Summary = {
-  Usernumber: number,
-  Ordernumber: number,
-}
+  Usernumber: number;
+  Ordernumber: number;
+  PastOrderNumber: number[];
+};
 
-export default function index({}: Props) {
-  const [summary, setSummary] = React.useState<Summary>({
-    Usernumber: 0,
-    Ordernumber: 0,
-  });
-  
-  const getData = () => {
-    fetch(config.baseURL + "summary")
-        .then((res) => res.json())
-        .then((data) => {
-          setSummary(data);
-        });
-  }
+type Props = {
+  data: Summary;
+};
 
-  useEffect(() => {
-    getData();
-  }, []) 
-    
+export default function index({ data }: Props) {
   return (
     <Card className="main-card-small" hoverable>
       <LineChartOutlined />
       <span className="main-card-small-title">数据总览</span>
       <Divider />
       <span className="main-card-small-hint">用户总数</span>
-      <span className="main-card-small-data">{summary.Usernumber}</span>
+      <span className="main-card-small-data">{data.Usernumber}</span>
       <br />
       <span className="main-card-small-hint">订单总数</span>
-      <span className="main-card-small-data">{summary.Ordernumber}</span>
+      <span className="main-card-small-data">{data.Ordernumber}</span>
     </Card>
   );
 }

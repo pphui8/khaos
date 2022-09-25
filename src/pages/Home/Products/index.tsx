@@ -74,7 +74,6 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "id",
     key: "id",
     render: (text) => <a>{text}</a>,
-    defaultSortOrder: "descend",
     sorter: (a, b) => a.id - b.id,
   },
   {
@@ -86,21 +85,18 @@ const columns: ColumnsType<DataType> = [
     title: "价格",
     dataIndex: "price",
     key: "price",
-    defaultSortOrder: "descend",
     sorter: (a, b) => a.price - b.price,
   },
   {
     title: "在库",
     dataIndex: "stock",
     key: "stock",
-    defaultSortOrder: "descend",
     sorter: (a, b) => Number(a.stock) - Number(b.stock),
   },
   {
     title: "销量",
     key: "sale",
     dataIndex: "sale",
-    defaultSortOrder: "descend",
     sorter: (a, b) => Number(a.sale) - Number(b.sale),
   },
   {
@@ -109,12 +105,24 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "type",
     filters: [
       {
-        value: "硬件设备",
-        text: "硬件设备",
+        value: "摆件挂件",
+        text: "摆件挂件",
       },
       {
-        value: "游戏账号",
-        text: "游戏账号",
+        value: "Q版手办",
+        text: "Q版手办",
+      },
+      {
+        value: "日居用品",
+        text: "日居用品",
+      },
+      {
+        value: "漫画",
+        text: "漫画",
+      },
+      {
+        value: "手办",
+        text: "手办",
       },
     ],
     filterMode: "tree",

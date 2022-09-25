@@ -89,7 +89,6 @@ const App: React.FC = () => {
       dataIndex: "key",
       key: "id",
       render: (text) => <a>{text}</a>,
-      defaultSortOrder: "descend",
       sorter: (a, b) => a.id - b.id,
     },
     {
@@ -116,7 +115,6 @@ const App: React.FC = () => {
       title: "价格",
       key: "price",
       dataIndex: "price",
-      defaultSortOrder: "descend",
       sorter: (a, b) => a.price - b.price,
     },
     {
@@ -128,7 +126,6 @@ const App: React.FC = () => {
       title: "下单日期",
       key: "date",
       dataIndex: "date",
-      defaultSortOrder: "descend",
       sorter: (a, b) => {
         const aDate = new Date(a.date);
         const bDate = new Date(b.date);

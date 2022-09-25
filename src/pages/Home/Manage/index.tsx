@@ -26,11 +26,6 @@ export default function index({}: Props) {
     } else {
       values.status = "停售";
     }
-    if (values.type === "electron") {
-      values.type = "硬件设备";
-    } else {
-      values.type = "游戏账号";
-    }
     // set img value
     values.img = "https://img1.imgtp.com/2022/09/14/36exsfOL.jpg";
     fetch(config.baseURL + "addproduct", {
@@ -140,11 +135,13 @@ export default function index({}: Props) {
           label="商品分类"
           name="type"
           rules={[{ required: true, message: "请输入商品分类" }]}
-          initialValue="electron"
+          initialValue="摆件挂件"
         >
           <Select>
-            <Select.Option value="electron">硬件设备</Select.Option>
-            <Select.Option value="medicine">游戏账号</Select.Option>
+            <Select.Option value="摆件挂件">摆件挂件</Select.Option>
+            <Select.Option value="日居用品">日居用品</Select.Option>
+            <Select.Option value="漫画">漫画</Select.Option>
+            <Select.Option value="手办">手办</Select.Option>
           </Select>
         </Form.Item>
 

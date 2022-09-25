@@ -60,7 +60,6 @@ const App: React.FC = () => {
       dataIndex: "key",
       key: "userid",
       render: (text) => <a>{text}</a>,
-      defaultSortOrder: "descend",
       sorter: (a, b) => a.id - b.id,
     },
     {

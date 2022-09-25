@@ -1,4 +1,4 @@
-import { Modal, Popconfirm, Space, Table, Image } from "antd";
+import { Modal, Popconfirm, Space, Table, Image, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ColumnFilterItem } from "antd/lib/table/interface";
 import React, { useEffect, useState } from "react";
@@ -92,13 +92,24 @@ const App: React.FC = () => {
       });
   };
 
+  const statusTagColor = (status: string) => {
+    if (status === "日常") {
+      return "blue";
+    } else if (status === "同人") {
+      return "yellow";
+    } else if (status === "攻略") {
+      return "green";
+    } else {
+      return "";
+    }
+  };
+
   const columns: ColumnsType<DataType> = [
     {
       title: "帖子编号",
       dataIndex: "key",
       key: "id",
       render: (text) => <a>{text}</a>,
-      defaultSortOrder: "descend",
       sorter: (a, b) => a.id - b.id,
     },
     {
@@ -127,6 +138,16 @@ const App: React.FC = () => {
       key: "browseNumber",
     },
     {
+      title: "标签",
+      dataIndex: "tag",
+      key: "tag",
+      render: (_, record) => (
+        <Space size="middle">
+          <Tag color={statusTagColor(record.tag)}>{record.tag}</Tag>
+        </Space>
+      ),
+    },
+    {
       title: "操作",
       key: "action",
       render: (_, record) => (
@@ -152,7 +173,6 @@ const App: React.FC = () => {
       dataIndex: "key",
       key: "id",
       render: (text) => <a>{text}</a>,
-      defaultSortOrder: "descend",
       sorter: (a, b) => a.id - b.id,
     },
     {
@@ -207,6 +227,7 @@ const App: React.FC = () => {
         let usernames: ColumnFilterItem[] = [];
         data.map((item: DataType) => {
           item.key = item.id;
+          isFind = false;
           usernames.map((value, _) => {
             if (value.text === item.username) {
               isFind = true;
@@ -219,9 +240,9 @@ const App: React.FC = () => {
               value: item.username,
             });
           }
-          setposts(data);
-          setUsernames(usernames);
         });
+        setposts(data);
+        setUsernames(usernames);
     });
   };
 

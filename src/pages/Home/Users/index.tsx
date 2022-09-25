@@ -93,7 +93,6 @@ const App: React.FC = () => {
       dataIndex: "Id",
       key: "Id",
       render: (text) => <a>{text}</a>,
-      defaultSortOrder: "descend",
       sorter: (a, b) => Number(a.Id) - Number(b.Id),
     },
     {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Divider, Row } from "antd";
 import {
   Chart as ChartJS,
@@ -14,8 +14,15 @@ import ServerStatus from "./ServerStatus";
 import SumData from "./SumData";
 import "./index.css";
 import { Line } from "react-chartjs-2";
+import config from "../../../config";
 
 type Props = {};
+
+type Summary = {
+  Usernumber: number;
+  Ordernumber: number;
+  PastOrderNumber: number[];
+};
 
 ChartJS.register(
   CategoryScale,
@@ -43,23 +50,51 @@ const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
 export default function index({}: Props) {
+  const [labels, setLabels] = useState<string[]>([]);
+  const [summary, setSummary] = React.useState<Summary>({
+    Usernumber: 0,
+    Ordernumber: 0,
+    PastOrderNumber: [],
+  });
   const data = {
     labels,
     datasets: [
       {
         label: "最近七天下单数量",
-        data: labels.map((_, index) => {
-          return index * 100;
-        }),
+        data: summary.PastOrderNumber,
         borderColor: "#8bdaff",
         backgroundColor: "#1890ff",
         yAxisID: "y",
       },
     ],
   };
+
+  const getData = () => {
+    fetch(config.baseURL + "summary")
+      .then((res) => res.json())
+      .then((data) => {
+        setSummary(data);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    let tmp: string[] = [];
+    // get date of today
+    const today = new Date().getMonth() + 1 + "月" + new Date().getDate() + "日";
+    // insert date of past 7 days
+    for (let i = 1; i < 8; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      tmp.unshift(date.getMonth() + 1 + "月" + date.getDate() + "日");
+    }
+    setLabels(tmp);
+    getData();
+  }, []);
   
   return (
     <>
@@ -68,7 +103,7 @@ export default function index({}: Props) {
           <ServerStatus />
         </Col>
         <Col flex={1}>
-          <SumData />
+          <SumData data={summary} />
         </Col>
       </Row>
       <Divider orientation="left">下单数量</Divider>
