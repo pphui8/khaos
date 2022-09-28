@@ -73,7 +73,8 @@ export default function index({}: Props) {
   const getData = () => {
     fetch(config.baseURL + "summary")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Summary) => {
+        data.PastOrderNumber = data.PastOrderNumber.reverse();
         setSummary(data);
       });
   };
